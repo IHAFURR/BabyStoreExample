@@ -48,62 +48,103 @@ namespace BabyStore.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Upload(HttpPostedFileBase file)
+        public ActionResult Upload(HttpPostedFileBase[] files)
         {
-            // check if user entered a file
-            if (file != null)
-            {
-                // check if file is valid
-                if (ValidateFile(file))
-                {
-                    try
-                    {
-                        SaveFileToDisk(file);
-                    }
-                    catch (Exception)
-                    {
+            bool allValid = true;
+            string inValidFiles = "";
 
-                        ModelState.AddModelError("FileName", "Sorry an error occured saving the file to disk, please try again.");
+            // check if user entered a files
+            if (files[0] != null)
+            {
+                // if user enetere less then 10 files
+                if (files.Length <= 10)
+                {
+                    // check if all files are valid
+                    foreach (var file in files)
+                    {
+                        if (!ValidateFile(file))
+                        {
+                            allValid = false;
+                            inValidFiles += ", " + file.FileName;
+                        }
+                    }
+                    // if they are all valid then try to save to disk
+                    if (allValid)
+                    {
+                        foreach (var file in files)
+                        {
+                            try
+                            {
+                                SaveFileToDisk(file);
+                            }
+                            catch (Exception)
+                            {
+                                ModelState.AddModelError("FileName", "Sorry an arror occurred saving the files to disk, please try again");        
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // else add an error listing out the invalid files
+                        ModelState.AddModelError("Filename", "All files must be .gif, .jpeg, .png, .jpg format and less then 2MB in size. " +
+                            "The folowing files: " + inValidFiles + " are not valid");
                     }
                 }
                 else
-                {   
-                    // validation error
-                    ModelState.AddModelError("FileName", "The file must be .gif, .png, .jpeg or jpg and less then 2MB in size.");
+                {
+                    ModelState.AddModelError("FileName", "Please only upload up to ten files at a time");
                 }
             }
             else
             {
-                // if user has not entered a file return an error message 
-                ModelState.AddModelError("FileName", "Please choose a file.");
+                ModelState.AddModelError("FileName", "Please choose at least 1 file");
             }
-
             if (ModelState.IsValid)
             {
-                db.ProductImages.Add(new ProductImage { FileName = file.FileName });
-                try
-                {
-                    db.SaveChanges();
-                }
-                catch (DbUpdateException ex)
-                {
+                bool duplicates = false;
+                bool otherDbError = false;
+                string duplicatesFile = "";
 
-                    SqlException innerException = ex.InnerException.InnerException as SqlException;
-                    if (innerException != null && innerException.Number == 2601)
+                foreach (var file in files)
+                {
+                    // try to save each file
+                    var productToAdd = new ProductImage { FileName = file.FileName };
+                    try
                     {
-                        ModelState.AddModelError("FileName", "The file " + file.FileName + " already exsits in the system." +
-                            " Please delete it and try again if you wish re-add it.");
+                        db.ProductImages.Add(productToAdd);
+                        db.SaveChanges();
                     }
-                    else
+                    catch (DbUpdateException ex)
                     {
-                        ModelState.AddModelError("FileName", "Sorry an error has occured saving to the database, please try again.");
+                        // if there is an excepion check if it is caused by a duplicate file
+                        SqlException innerException = ex.InnerException.InnerException as SqlException;
+                        if (innerException != null && innerException.Number == 2601)
+                        {
+                            duplicatesFile += ", " + file.FileName;
+                            duplicates = true;
+                            db.Entry(productToAdd).State = EntityState.Detached;
+                        }
+                        else
+                        {
+                            otherDbError = true;
+                        }
                     }
+                }
+                // add list of duplicate files to the error message
+                if (duplicates)
+                {
+                    ModelState.AddModelError("FileName", "All files were uploaded except the files " + duplicatesFile + ", which already " +
+                        "exist in the system. Please delete them and try again if you wish to re-add them.");
+                }
+                else if (otherDbError)
+                {
+                    ModelState.AddModelError("FileName", "Sorry an error has occured during saving to database, please try again.");
                     return View();
-                }               
-                return RedirectToAction("Index");
+                }
+
             }
 
-            return View();
+            return RedirectToAction("Index");
         }
 
         // GET: ProductImages/Edit/5
