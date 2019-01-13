@@ -9,6 +9,7 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using BabyStore.DAL;
 using BabyStore.Models;
+using System.Diagnostics;
 
 namespace BabyStore.Controllers
 {
@@ -52,7 +53,7 @@ namespace BabyStore.Controllers
         {
             bool allValid = true;
             string inValidFiles = "";
-
+            db.Database.Log = sql => Trace.WriteLine(sql);
             // check if user entered a files
             if (files[0] != null)
             {
