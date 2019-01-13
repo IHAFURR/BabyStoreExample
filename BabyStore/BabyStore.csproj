@@ -168,15 +168,21 @@
     <Compile Include="Migrations\201901051351210_UniqueFileName.Designer.cs">
       <DependentUpon>201901051351210_UniqueFileName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901131045467_CreateProductImageMappign.cs" />
+    <Compile Include="Migrations\201901131045467_CreateProductImageMappign.Designer.cs">
+      <DependentUpon>201901131045467_CreateProductImageMappign.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\CategoryMeteData.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductImage.cs" />
+    <Compile Include="Models\ProductImageMapping.cs" />
     <Compile Include="Models\ProductImageMetaData.cs" />
     <Compile Include="Models\ProductMetaData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\ProductIndexViewModel.cs" />
+    <Compile Include="ViewModel\ProductViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -245,6 +251,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901051351210_UniqueFileName.resx">
       <DependentUpon>201901051351210_UniqueFileName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901131045467_CreateProductImageMappign.resx">
+      <DependentUpon>201901131045467_CreateProductImageMappign.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
