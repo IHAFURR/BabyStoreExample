@@ -145,7 +145,7 @@ namespace BabyStore.Controllers
 
             }
 
-            return RedirectToAction("Index");
+            return View();
         }
 
         // GET: ProductImages/Edit/5
@@ -208,7 +208,7 @@ namespace BabyStore.Controllers
         // Move this method to another reusable class
         private bool ValidateFile(HttpPostedFileBase file)
         {
-            string[] allowedFileTypes = { ".gif", ".gpeg", ".png", ".jpg" };
+            string[] allowedFileTypes = { ".gif", ".jpeg", ".png", ".jpg"};                        
             string fileExt = System.IO.Path.GetExtension(file.FileName).ToLower();
             if ((file.ContentLength > 0 && file.ContentLength < 2097152) && allowedFileTypes.Contains(fileExt))
             {
