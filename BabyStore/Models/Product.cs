@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections.Generic;
+
 namespace BabyStore.Models
 {
     public partial class Product
@@ -9,6 +10,7 @@ namespace BabyStore.Models
         public decimal Price { get; set; }
         public int? CategoryId { get; set; }
         public virtual Category Category { get; set; }
+        public virtual ICollection<ProductImageMapping> ProductImageMappings { get; set; }
 
     }
 }

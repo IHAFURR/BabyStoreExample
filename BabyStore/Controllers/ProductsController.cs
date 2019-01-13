@@ -66,7 +66,7 @@ namespace BabyStore.Controllers
                     products = products.OrderBy(p => p.Name);
                     break;
             }
-            
+
             int currentPage = (page ?? 1);
             productViewModel.Products = products.ToPagedList(currentPage, Constants.PageItems);
             productViewModel.SortBy = sortBy;
@@ -99,8 +99,14 @@ namespace BabyStore.Controllers
         // GET: Products/Create
         public ActionResult Create()
         {
-            ViewBag.CategoryId = new SelectList(db.Categories, "ID", "Name");
-            return View();
+            var productViewModel = new ProductViewModel();
+            productViewModel.CategoryList = new SelectList(db.Categories, "ID", "Name");
+            productViewModel.ImageLists = new List<SelectList>();
+            for (int i = 0; i < Constants.NumberOfProdcutImages; i++)
+            {
+                productViewModel.ImageLists.Add(new SelectList(db.ProductImages, "ID", "FileName"));
+            }
+            return View(productViewModel);
         }
 
         // POST: Products/Create
@@ -108,8 +114,25 @@ namespace BabyStore.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Description,Price,CategoryId")] Product product)
+        public ActionResult Create(ProductViewModel productViewModel)
         {
+            var product = new Product();
+            product.Name = productViewModel.Name;
+            product.Description = productViewModel.Description;
+            product.Price = productViewModel.Price;
+            product.CategoryId = productViewModel.CategoryID;
+            product.ProductImageMappings = new List<ProductImageMapping>();
+
+            // get a list of all selected images without any blanks
+            string[] productImages = productViewModel.ProductImages.Where(pi => !string.IsNullOrEmpty(pi)).ToArray();
+            for (int i = 0; i < productImages.Length; i++)
+            {
+                product.ProductImageMappings.Add(new ProductImageMapping
+                {
+                    ProductImage = db.ProductImages.Find(int.Parse(productImages[i])),
+                    ImageNumber = i
+                });
+            }
             if (ModelState.IsValid)
             {
                 db.Products.Add(product);
@@ -117,8 +140,14 @@ namespace BabyStore.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CategoryId = new SelectList(db.Categories, "ID", "Name", product.CategoryId);
-            return View(product);
+            productViewModel.CategoryList = new SelectList(db.Categories, "ID", "Name", product.CategoryId);
+            productViewModel.ImageLists = new List<SelectList>();
+            for (int i = 0; i < Constants.NumberOfProdcutImages; i++)
+            {
+                productViewModel.ImageLists.Add(new SelectList(db.ProductImages, "ID", "FileName", productViewModel.ProductImages[i]));
+            }
+
+            return View(productViewModel);
         }
 
         // GET: Products/Edit/5

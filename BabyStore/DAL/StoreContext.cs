@@ -14,6 +14,7 @@ namespace BabyStore.DAL
         public DbSet<Category> Categories {get; set;}
 
         public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<ProductImageMapping> ProductImageMappings { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
