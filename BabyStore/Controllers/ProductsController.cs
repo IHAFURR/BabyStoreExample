@@ -162,8 +162,26 @@ namespace BabyStore.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CategoryId = new SelectList(db.Categories, "ID", "Name", product.CategoryId);
-            return View(product);
+            var productViewModel = new ProductViewModel();
+            productViewModel.CategoryList = new SelectList(db.Categories, "ID", "Name", product.CategoryId);
+            productViewModel.ImageLists = new List<SelectList>();
+
+            foreach (var item in product.ProductImageMappings.OrderBy(pim => pim.ImageNumber))
+            {
+                productViewModel.ImageLists.Add(new SelectList(db.ProductImages, "ID", "FileName", item.ProductImageID));
+            }
+
+            for (int i = productViewModel.ImageLists.Count; i < Constants.NumberOfProdcutImages; i++)
+            {
+                productViewModel.ImageLists.Add(new SelectList(db.ProductImages, "ID", "FileName"));
+            }
+
+            productViewModel.ID = product.ID;
+            productViewModel.Name = product.Name;
+            productViewModel.Description = product.Description;
+            productViewModel.Price = product.Price;
+            
+            return View(productViewModel);
         }
 
         // POST: Products/Edit/5
