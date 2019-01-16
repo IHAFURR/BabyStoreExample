@@ -200,8 +200,28 @@ namespace BabyStore.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             ProductImage productImage = db.ProductImages.Find(id);
+            // find all mapping for this image            
+            var mappings = productImage.ProductImageMappings.Where(pim => pim.ProductImageID == id);
+            foreach (var mapping  in mappings)
+            {
+                // find all the mappings for any prodcut containing this image
+                var mappingsToUpdate = db.ProductImageMappings.Where(pim => pim.ProductID == mapping.ProductID);
+                // for each image in each product change its imagenumber to lower if it
+                // is higher than the current one
+                foreach (var mappingToUpdate in mappingsToUpdate)
+                {
+                    if (mappingToUpdate.ImageNumber > mapping.ImageNumber)
+                    {
+                        mappingToUpdate.ImageNumber -= 1;
+                    }
+                }
+            }        
+
+            System.IO.File.Delete(Request.MapPath(Constants.ProductImagePath + productImage.FileName));
+            System.IO.File.Delete(Request.MapPath(Constants.ProductThumbnailPath + productImage.FileName));
             db.ProductImages.Remove(productImage);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
