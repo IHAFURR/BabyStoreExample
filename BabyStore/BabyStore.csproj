@@ -233,6 +233,7 @@
     <Content Include="Views\ProductImages\Delete.cshtml" />
     <Content Include="Views\ProductImages\Index.cshtml" />
     <Content Include="Views\Error\FileUploadLimitExceeded.cshtml" />
+    <Content Include="Views\Shared\_ProductCreateEditPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201812121620345_InitialCreate.resx">
