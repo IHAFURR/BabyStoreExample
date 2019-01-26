@@ -25,7 +25,7 @@
                     <li>@Html.RouteLink("Products", "ProductsIndex")</li>
                     <li>@Html.ActionLink("Manage Images", "Index", "ProductImages")</li>
                 </ul>
-                @using (Html.BeginRouteForm("ProductsIndex", FormMethod.Get, new { @class ="navbar-form navbar-left" }))
+                @using (Html.BeginRouteForm("ProductsIndex", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
                 {
                     <div class="form-group">
                         @Html.TextBox("Search", null, new { @class = "form-control", @placeholder
@@ -33,6 +33,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary btn-lg">Submit</button>
                 }
+                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
