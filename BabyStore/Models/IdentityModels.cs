@@ -25,6 +25,13 @@ namespace BabyStore.Models
         {
         }
 
+        static ApplicationDbContext()
+        {
+            // Set the database initialiser which is run once during application starts
+            // This seeds the database with admin user credentils and admin role
+            Database.SetInitializer<ApplicationDbContext>(new ApplicationDBInitializer());
+        }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

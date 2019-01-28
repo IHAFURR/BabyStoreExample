@@ -63,6 +63,8 @@ namespace BabyStore
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+
+            app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
         }
     }
 }
