@@ -120,7 +120,7 @@ namespace BabyStore
     }
 
     //This examples shows you how to create a new database if the Model changes
-    public class ApplicationDBInitializer: DropCreateDatabaseAlways<ApplicationDbContext>
+    public class ApplicationDBInitializer: DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context)
         {
