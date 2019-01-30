@@ -107,36 +107,54 @@ namespace BabyStore.Controllers
         }
 
         // GET: RolesAdmin/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var role = await RoleManager.FindByIdAsync(id);
+            if (role == null)
+            {
+                return HttpNotFound();
+            }
+            RoleViewModel roleViewModel = new RoleViewModel { Id = role.Id, Name = role.Name };
+            return View(roleViewModel);
         }
 
         // POST: RolesAdmin/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public async Task<ActionResult> Edit(RoleViewModel roleViewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
+                var role = await RoleManager.FindByIdAsync(roleViewModel.Id);
+                role.Name = roleViewModel.Name;
+                await RoleManager.UpdateAsync(role);
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
 
+
         // GET: RolesAdmin/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var role = await RoleManager.FindByIdAsync(id);
+            if (role == null)
+            {
+                return HttpNotFound();
+            }
+            return View(role);
         }
 
         // POST: RolesAdmin/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public async Task<ActionResult> Delete()
         {
             try
             {
