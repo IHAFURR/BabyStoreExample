@@ -136,7 +136,7 @@ namespace BabyStore
             var admin = new Administrator();
             string name = admin.Name;
             string password = admin.Passord;
-            const string roleName = "admin";
+            const string roleName = "Admin";
 
             // Create Admin role if it does not exist
             var role = roleManager.FindByName(roleName);

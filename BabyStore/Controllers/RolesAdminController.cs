@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BabyStore.ViewModel;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity;
 
 namespace BabyStore.Controllers
 {
@@ -15,8 +16,10 @@ namespace BabyStore.Controllers
     {
         private ApplicationRoleManager _roleManager;
         private ApplicationUserManager _userManager;
-        public ApplicationRoleManager RoleManager {
-            get {
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
                 return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
             }
             set
@@ -50,7 +53,7 @@ namespace BabyStore.Controllers
 
 
         // GET: RolesAdmin
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             return View(RoleManager.Roles);
@@ -90,7 +93,7 @@ namespace BabyStore.Controllers
 
         // POST: RolesAdmin/Create
         [HttpPost]
-        public async  Task<ActionResult> Create(RoleViewModel roleViewModel)
+        public async Task<ActionResult> Create(RoleViewModel roleViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -153,19 +156,30 @@ namespace BabyStore.Controllers
         }
 
         // POST: RolesAdmin/Delete/5
-        [HttpPost]
-        public async Task<ActionResult> Delete()
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                // TODO: Add delete logic here
-
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                var role = await RoleManager.FindByIdAsync(id);
+                if (role == null)
+                {
+                    return HttpNotFound();
+                }
+                IdentityResult result = await RoleManager.DeleteAsync(role);
+                if (!result.Succeeded)
+                {
+                    ModelState.AddModelError("", result.Errors.First());
+                    return View();
+                }
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
     }
 }
