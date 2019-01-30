@@ -1,6 +1,11 @@
 ﻿using Microsoft.AspNet.Identity.Owin;
 using System.Web;
 using System.Web.Mvc;
+using System.Net;
+using System.Threading.Tasks;
+using BabyStore.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BabyStore.Controllers
 {
@@ -43,15 +48,36 @@ namespace BabyStore.Controllers
 
 
         // GET: RolesAdmin
+        [Authorize(Roles = "admin")]
         public ActionResult Index()
         {
             return View(RoleManager.Roles);
         }
 
         // GET: RolesAdmin/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var role = await RoleManager.FindByIdAsync(id);
+            // Get the list of Users in this Role
+            var users = new List<ApplicationUser>();
+
+            // Get the list of Users in this Role
+            foreach (var user in UserManager.Users.ToList())
+            {
+                if (await UserManager.IsInRoleAsync(user.Id, role.Name))
+                {
+                    users.Add(user);
+                }
+            }
+
+            ViewBag.Users = users;
+            ViewBag.Count = users.Count();
+
+            return View(role);
         }
 
         // GET: RolesAdmin/Create
