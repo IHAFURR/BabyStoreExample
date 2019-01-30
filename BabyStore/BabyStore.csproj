@@ -301,6 +301,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\RolesAdmin\Index.cshtml" />
     <Content Include="Views\RolesAdmin\Details.cshtml" />
+    <Content Include="Views\RolesAdmin\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201812121620345_InitialCreate.resx">
