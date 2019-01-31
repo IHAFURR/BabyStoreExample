@@ -1,18 +1,17 @@
-namespace BabyStore.Migrations
-{
-    using System;
-    using System.Data.Entity;
+namespace BabyStore.Migrations.StoreConfiguration
+{    
     using System.Data.Entity.Migrations;
     using System.Linq;
     using BabyStore.Models;
     using System.Collections.Generic;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<BabyStore.DAL.StoreContext>
+    internal sealed class StoreConfiguration : DbMigrationsConfiguration<BabyStore.DAL.StoreContext>
     {
-        public Configuration()
+        public StoreConfiguration()
         {
             AutomaticMigrationsEnabled = false;
             ContextKey = "BabyStore.DAL.StoreContext";
+            MigrationsDirectory = @"Migrations\Store";
         }
 
         protected override void Seed(BabyStore.DAL.StoreContext context)
