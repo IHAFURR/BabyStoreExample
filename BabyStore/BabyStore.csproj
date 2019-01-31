@@ -181,36 +181,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201812121620345_InitialCreate.cs" />
-    <Compile Include="Migrations\201812121620345_InitialCreate.Designer.cs">
-      <DependentUpon>201812121620345_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\Application\201901311710492_UpdateUserFields.cs" />
+    <Compile Include="Migrations\Application\201901311710492_UpdateUserFields.Designer.cs">
+      <DependentUpon>201901311710492_UpdateUserFields.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201812181716497_CategoryNameValidation.cs" />
-    <Compile Include="Migrations\201812181716497_CategoryNameValidation.Designer.cs">
-      <DependentUpon>201812181716497_CategoryNameValidation.cs</DependentUpon>
+    <Compile Include="Migrations\ApplivationConfiguration.cs" />
+    <Compile Include="Migrations\StoreConfiguration.cs" />
+    <Compile Include="Migrations\Store\201901311658182_TowContextReset.cs" />
+    <Compile Include="Migrations\Store\201901311658182_TowContextReset.Designer.cs">
+      <DependentUpon>201901311658182_TowContextReset.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201812191515063_addedProductFieldValidation.cs" />
-    <Compile Include="Migrations\201812191515063_addedProductFieldValidation.Designer.cs">
-      <DependentUpon>201812191515063_addedProductFieldValidation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901051154105_ProductImage.cs" />
-    <Compile Include="Migrations\201901051154105_ProductImage.Designer.cs">
-      <DependentUpon>201901051154105_ProductImage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901051351210_UniqueFileName.cs" />
-    <Compile Include="Migrations\201901051351210_UniqueFileName.Designer.cs">
-      <DependentUpon>201901051351210_UniqueFileName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901131045467_CreateProductImageMappign.cs" />
-    <Compile Include="Migrations\201901131045467_CreateProductImageMappign.Designer.cs">
-      <DependentUpon>201901131045467_CreateProductImageMappign.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901261528091_AddIdentityModel.cs" />
-    <Compile Include="Migrations\201901261528091_AddIdentityModel.Designer.cs">
-      <DependentUpon>201901261528091_AddIdentityModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\CategoryMeteData.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -227,10 +209,6 @@
     <Compile Include="ViewModel\ProductViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\BabyStore.mdf" />
-    <Content Include="App_Data\BabyStore_log.ldf">
-      <DependentUpon>BabyStore.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -308,29 +286,6 @@
     <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201812121620345_InitialCreate.resx">
-      <DependentUpon>201812121620345_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812181716497_CategoryNameValidation.resx">
-      <DependentUpon>201812181716497_CategoryNameValidation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812191515063_addedProductFieldValidation.resx">
-      <DependentUpon>201812191515063_addedProductFieldValidation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901051154105_ProductImage.resx">
-      <DependentUpon>201901051154105_ProductImage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901051351210_UniqueFileName.resx">
-      <DependentUpon>201901051351210_UniqueFileName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901131045467_CreateProductImageMappign.resx">
-      <DependentUpon>201901131045467_CreateProductImageMappign.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901261528091_AddIdentityModel.resx">
-      <DependentUpon>201901261528091_AddIdentityModel.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -344,7 +299,16 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="Content\ProductImages\Thumbnails\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\Application\201901311710492_UpdateUserFields.resx">
+      <DependentUpon>201901311710492_UpdateUserFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Store\201901311658182_TowContextReset.resx">
+      <DependentUpon>201901311658182_TowContextReset.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
