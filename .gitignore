@@ -262,5 +262,6 @@ __pycache__/
 
 BabyStore/Content/ProductImages/*
 BabyStore/Content/ProductImages/*
-
+BabyStore/Migrations/Application/
+BabyStore/Migrations/Store/
 
