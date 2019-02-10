@@ -17,7 +17,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <Use64BitIISExpress />
+    <Use64BitIISExpress>true</Use64BitIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -34,6 +34,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -181,9 +183,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Application\201901311710492_UpdateUserFields.cs" />
-    <Compile Include="Migrations\Application\201901311710492_UpdateUserFields.Designer.cs">
-      <DependentUpon>201901311710492_UpdateUserFields.cs</DependentUpon>
+    <Compile Include="Migrations\Application\201902101443475_UdateUserModel.cs" />
+    <Compile Include="Migrations\Application\201902101443475_UdateUserModel.Designer.cs">
+      <DependentUpon>201902101443475_UdateUserModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ApplivationConfiguration.cs" />
     <Compile Include="Migrations\StoreConfiguration.cs" />
@@ -303,8 +305,8 @@
     <Folder Include="Content\ProductImages\Thumbnails\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\Application\201901311710492_UpdateUserFields.resx">
-      <DependentUpon>201901311710492_UpdateUserFields.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\Application\201902101443475_UdateUserModel.resx">
+      <DependentUpon>201902101443475_UdateUserModel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\Store\201901311658182_TowContextReset.resx">
       <DependentUpon>201901311658182_TowContextReset.cs</DependentUpon>

@@ -14,17 +14,17 @@ namespace BabyStore.Models
         [Required]
         [Display(Name = "First Name")]
         [StringLength(50)]
-        [RegularExpression("^(a-zA-Z-)?")]
+        [RegularExpression("^[a-zA-Z-]+$")]
         public string FirstName { get; set; }
         [Required]
         [Display(Name = "Last Name")]
         [StringLength(50)]
-        [RegularExpression("^(a-zA-Z-)?")]
-        public string LastName { get; set; }
-        [Required]
+        [RegularExpression("^[a-zA-Z-]+$")]
+        public string LastName { get; set; }       
+        
         [Display(Name = "Date of Birth")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:d}")]
+        [DisplayFormat(DataFormatString = "{0:d}")]        
         public DateTime DateOfBirth { get; set; }
 
         public Address Address { get; set; }

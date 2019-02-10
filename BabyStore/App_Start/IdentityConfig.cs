@@ -152,10 +152,26 @@ namespace BabyStore
                 user = new ApplicationUser
                 {
                     UserName = name,
-                    Email = name
+                    Email = name,
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    DateOfBirth = DateTime.Now,
+                    Address = new Address {
+                        AddressLine1 = "Line 1",
+                        Country = "Country",
+                        PostCode = "PostCode",
+                        Town = "Town"
+                    }                    
                 };
-                var result = userManager.Create(user, password);
-                result = userManager.SetLockoutEnabled(user.Id, false);
+                try
+                {
+                    var result = userManager.Create(user, password);
+                    result = userManager.SetLockoutEnabled(user.Id, false);
+                }
+                catch (Exception ex)
+                {                    
+                    throw ex;
+                }                                
             }
 
             // Add user admin to Role Admin if not already added
@@ -163,7 +179,26 @@ namespace BabyStore
             if (!rolesForUser.Contains(role.Name))
             {
                 var result = userManager.AddToRole(user.Id, role.Name);
-            }                        
+            }
+
+            //Create Users role
+            role = roleManager.FindByName(Constants.UserRole);
+            if (role == null)
+            {
+                role = new IdentityRole(Constants.UserRole);
+                try
+                {
+                    var roleResult = roleManager.Create(role);
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+            {
+
+            }
         }
     }
 }
