@@ -290,6 +290,8 @@
     <Content Include="Views\UserAdmin\Index.cshtml" />
     <Content Include="Views\UserAdmin\Details.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Address.cshtml" />
+    <Content Include="Views\UserAdmin\Create.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Address.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
