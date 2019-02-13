@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Net;
 
 namespace BabyStore.Controllers
 {
@@ -54,10 +55,18 @@ namespace BabyStore.Controllers
             return View(await ApplicationUserManager.Users.ToListAsync());
         }
 
-        // GET: UserAdmin/Details/5
-        public ActionResult Details(int id)
+        // GET: UserAdmin/Details/5        
+        public async Task<ActionResult> Details(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var user = await ApplicationUserManager.FindByIdAsync(id);
+
+            ViewBag.RoleNames = await ApplicationUserManager.GetRolesAsync(user.Id);
+            return View(user);
         }
 
         // GET: UserAdmin/Create
@@ -83,14 +92,14 @@ namespace BabyStore.Controllers
         }
 
         // GET: UserAdmin/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
             return View();
         }
 
         // POST: UserAdmin/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(string id, FormCollection collection)
         {
             try
             {
