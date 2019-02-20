@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Net;
 using BabyStore.Models;
+using BabyStore.ViewModel;
 
 namespace BabyStore.Controllers
 {
@@ -127,25 +128,82 @@ namespace BabyStore.Controllers
         }
 
         // GET: UserAdmin/Edit/5
-        public ActionResult Edit(string id)
+        public async Task<ActionResult> Edit(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var user = await ApplicationUserManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+
+            var userRoles = await ApplicationUserManager.GetRolesAsync(user.Id);
+            var userViewModel = new EditUserViewModel
+            {
+                Id = user.Id,
+                Email = user.Email,
+                DateOfBirth = user.DateOfBirth,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Address = user.Address,
+                RoleList = ApplicationRoleManager.Roles.ToList().Select(x => new SelectListItem()
+                {
+                    Selected = userRoles.Contains(x.Name),
+                    Text = x.Name,
+                    Value = x.Name
+                }
+                )
+            };
+            return View(userViewModel);
         }
 
         // POST: UserAdmin/Edit/5
         [HttpPost]
-        public ActionResult Edit(string id, FormCollection collection)
+        public async Task<ActionResult> Edit(EditUserViewModel editUserViewModel, params string[] selectedRoles)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
+                var user = await ApplicationUserManager.FindByIdAsync(editUserViewModel.Id);
+
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+
+                user.DateOfBirth = editUserViewModel.DateOfBirth;
+                user.FirstName = editUserViewModel.FirstName;
+                user.LastName = editUserViewModel.LastName;
+                user.Address = editUserViewModel.Address;
+
+                var userRoles = await ApplicationUserManager.GetRolesAsync(user.Id);
+
+                selectedRoles = selectedRoles ?? new string[] { };
+
+                var result = await ApplicationUserManager.AddToRolesAsync(user.Id, selectedRoles.Except(userRoles).ToArray<String>());
+
+                if (!result.Succeeded)
+                {
+                    ModelState.AddModelError("", result.Errors.First());
+                    return View();
+                }
+
+                result = await ApplicationUserManager.RemoveFromRolesAsync(user.Id, userRoles.Except(selectedRoles).ToArray<string>());
+
+                if (!result.Succeeded)
+                {
+                    ModelState.AddModelError("", result.Errors.First());
+                    return View();
+                }
 
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+            ModelState.AddModelError("", "Something is wrong, ask administrator.");
+            return View();
         }
 
         // GET: UserAdmin/Delete/5
