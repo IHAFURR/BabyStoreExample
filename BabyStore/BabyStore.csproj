@@ -294,6 +294,9 @@
     <Content Include="Views\UserAdmin\Edit.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_CreateRegisterUserPartial.cshtml" />
+    <Content Include="Views\Shared\_UserDetailPartial.cshtml" />
+    <Content Include="Views\Manage\Edit.cshtml" />
+    <Content Include="Views\Shared\_UserEditPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
