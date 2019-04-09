@@ -11,11 +11,13 @@ using BabyStore.Models;
 
 namespace BabyStore.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         private StoreContext db = new StoreContext();
 
         // GET: Categories
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View(db.Categories.OrderBy(c => c.Name).ToList());
