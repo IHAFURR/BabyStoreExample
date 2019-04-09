@@ -13,6 +13,7 @@ using PagedList;
 
 namespace BabyStore.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductsController : Controller
     {
         //Initiate a new viewmodel
@@ -21,6 +22,7 @@ namespace BabyStore.Controllers
         private StoreContext db = new StoreContext();
 
         // Get Products
+        [AllowAnonymous]
         public ActionResult Index(string category, string search, string sortBy, int? page)
         {
             var products = db.Products.Include(p => p.Category);
@@ -82,6 +84,7 @@ namespace BabyStore.Controllers
         }
 
         // GET: Products/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)

@@ -12,7 +12,11 @@
 </p>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Create New", "Create")
+    }
+
     @using (Html.BeginRouteForm("ProductsIndex", FormMethod.Get))
     {
         <label>Filter by category:</label>
@@ -46,7 +50,7 @@
         <td>
             @if (item.ProductImageMappings != null && item.ProductImageMappings.Any())
             {
-                <a href="@Url.Action("Detauls", new { id = item.ID})">
+                <a href="@Url.Action("Details", new { id = item.ID})">
                     <img src="@(Url.Content(Constants.ProductImagePath) + item.ProductImageMappings.OrderBy(pim => 
                           pim.ImageNumber).ElementAt(0).ProductImage.FileName)"/>
                 </a>
@@ -65,9 +69,12 @@
             @Html.DisplayFor(modelItem => item.Price)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                @Html.ActionLink("Edit", "Edit", new { id=item.ID })
+                @Html.Raw("|")                
+                @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            }
         </td>
     </tr>
 }
