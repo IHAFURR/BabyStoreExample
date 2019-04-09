@@ -194,8 +194,13 @@
     <Compile Include="Migrations\Store\201901311658182_TowContextReset.Designer.cs">
       <DependentUpon>201901311658182_TowContextReset.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Store\201904091227473_AddBasketLine.cs" />
+    <Compile Include="Migrations\Store\201904091227473_AddBasketLine.Designer.cs">
+      <DependentUpon>201904091227473_AddBasketLine.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\Basket.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\CategoryMeteData.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -321,6 +326,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\Store\201901311658182_TowContextReset.resx">
       <DependentUpon>201901311658182_TowContextReset.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Store\201904091227473_AddBasketLine.resx">
+      <DependentUpon>201904091227473_AddBasketLine.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
